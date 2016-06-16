@@ -13,7 +13,7 @@
      qit (quick git) a collection of aliases and functions for git.
 
 
-qit is an every growing collection of git commands that I use regularly.
+qit is an ever growing collection of git commands that I use regularly.
 
 #### This is still a work in progess!
 
