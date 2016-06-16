@@ -1,0 +1,154 @@
+#!/bin/bash
+################################################################################
+#
+#                ________  ___  _________
+#               |\   __  \|\  \|\___   ___\
+#               \ \  \|\  \ \  \|___ \  \_|
+#                \ \  \\\  \ \  \   \ \  \
+#                 \ \  \\\  \ \  \   \ \  \
+#                  \ \_____  \ \__\   \ \__\
+#                   \|___| \__\|__|    \|__|
+#                         \|__|
+#
+#     qit (quick git) a collection of aliases and functions for git.
+#
+# Created a single structure, project wide, for commit messages and other
+# conventions like branch names or rebaseing.
+#
+# All commands are prepeneded with a lowercase q, this is to help and make them
+# more unique and less likely to overwirte or be overwritten.
+#
+################################################################################
+
+qit_base_dir=${0%/*}
+source ${qit_base_dir}/utils
+source .qitconfig
+
+################################################################################
+#
+# Basics:
+# Simple aliases that remvoe git from the command
+#
+################################################################################
+alias qblame='git blame'
+alias qbranch='git branch'
+alias qcheckout='git checkout'
+alias qlog='git log'
+# alias qmerge='git merge'
+alias qpull='git pull'
+alias qpush='git push'
+# alias qrebase='git rebase'
+alias qstatus='git status'
+
+# TODO: build out help
+alias qhelp='cat ${qit_base_dir}/help.txt'
+
+################################################################################
+#
+# Funtions:
+# Functoins that extent some functionality
+#
+################################################################################
+qadd() {
+  if [ "${#}" -eq 0 ]; then
+    git add .
+  else
+    git add "$@"
+  fi
+}
+
+qclone() {
+  local git_repo
+
+  if [ -n "${2}" ]; then
+    git clone "${1}" "${2}"
+    git_repo="${2}"
+  else
+    git clone "${1}"
+    git_repo=$(echo "${1}" | awk -F/ '{print $NF}' | sed -e 's/.git$//');
+  fi
+
+  info "Changing directory to ${git_repo}"
+  cd "${git_repo}"
+}
+
+qcommit() {
+  if [ "${#}" -ne "${commit_params}" ]; then
+    error "Incorrect number of aruments" "${commit_tip}"
+    return 1
+  fi
+
+  echo 'git commit' ${commit_structure}
+}
+
+qconfig() {
+}
+
+parse() {
+	local file
+	file="${1}"
+
+	local section
+	section="${2}"
+
+	cfg_parser "${file}"
+
+#  local parse
+#  parse="cfg_section_${section}"
+#  "${parse}"
+
+  echo "${3}"
+}
+
+qinit() {
+  local flags
+  flags=()
+
+  if [ "${#}" -gt 0 ]; then
+    for flag in "$@"; do
+      if [ "${flag}" != '--ignore' ] && [ "${flag}" != '--add' ]; then
+        error "Unknown argument ${flag}" "--ignore, --add"
+        return 1;
+      else
+        flags+=("${flag}")
+      fi
+    done
+  fi
+
+  git init
+
+  for flag in "${flags[@]}"; do
+    if [ "${flag}" = '--ignore' ]; then
+      info "Generating .gitignore file"
+      # TODO: bring in ignore files from qitconfig global
+      touch .gitignore
+    fi
+
+    if [ "${flag}" = '--add' ]; then
+      info "Adding all files in directory to git repository"
+      git add .
+    fi
+  done
+}
+
+qignore() {
+  local files
+  local is_global
+
+  if [ "${#}" -eq 0 ]; then
+    error "Too few arguments" "qignore [--g] {<file>}"
+    return 1
+  fi
+
+  if [ "${1}" = '--g' ]; then
+    files=("${@:2}")
+  else
+    files=("${@}")
+  fi
+
+  # TODO: add to global qitignore to add to generated .gitignore
+  for file in "${files[@]}"; do
+    info "Adding ${file} to .gitignore"
+    echo -e ${file} >> .gitignore
+  done
+}

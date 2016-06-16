@@ -1,0 +1,26 @@
+                 ________  ___  _________
+                |\   __  \|\  \|\___   ___\
+                 \ \  \|\  \ \  \|___ \  \_|
+                  \ \  \\\  \ \  \   \ \  \
+                   \ \  \\\  \ \  \   \ \  \
+                    \ \_____  \ \__\   \ \__\
+                     \|___| \__\|__|    \|__|
+                           \|__|
+
+      qit (quick git) a collection of aliases and functions for git.
+
+For a complete list of commands and their optional flags, please visit the qit
+documentation page.
+
+Here are some common commands that might be useful:
+
+qclone:   Like git, it takes a url and an optional directory. The difference is
+          that qclone will also change directories to the cloned repository.
+
+qinit:    Creates a new git repo. qinit also takes two optional paramters:
+          --ignore, and --add. See docs.
+
+qcommit:  Use qcommit to commit changes. See docs to set up a standard commit
+          message per repo or globally.
+
+qignore:  A command added by qit, it appends file names to .gitignore.

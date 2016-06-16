@@ -1,0 +1,61 @@
+commit conventions for this project:
+tag: command - message
+ex
+  fix: qignore - ignores correct files
+  feat: qadd - add/feature files to be tracked by git
+
+tags: [chore, feat, fix, refactor, test]
+
+always use add over added and the like
+
+try to make commits on line
+in spectial cases, one line break btween body and subject
+body should then be written in standard English (capials, punctaion, etc)
+ex
+  feat: qit - inital commit for poject
+
+  Basic features for git. Comes with aliases for adding
+  and all that other stuff. The real basic git commands.
+
+all functions with flags parse the flags first, if a flag is unrecognized, fail
+fast
+
+
+qitconfig:
+a file that stores configurations for the local project and/or the gloabl system
+it holds thinks like the default commit message and rebase branch
+potential structure (based on other config files I've seen)
+  [commit]
+    default = 'wip'
+    structure = $1($2): $3
+  [rebase]
+    default = integration
+
+init:
+the git init --add should be reworked so that it can add specific files too, but
+that seems like it will be used less than anything else.
+
+qignore:
+adds and removes files to gitignore and optionally adds to a global ignore scope
+if that feature exists in git
+
+rebase:
+should have a few optoins
+it should be able to read a local qitconfig and a global qitconfig for default
+branches, and still allow users to input their own brnach
+I think its better to assume that whne there are no parameters to read locally,
+if there is no local file, read globally
+It might be tricky when there is the -i option (does it cound as a paramter, can
+it be put at the end of the line, should it by default be interactive?)
+
+commit:
+simliar to rebase, this one should have a few options
+gloabl commit, local commit, defulat commit, user commit
+it should be able to do things like:
+commit feat test wrote tests  -> git commit -am 'feat(test): wrote test'
+commit                        -> git commit -am 'wip'
+commit 'wrotes tests for'     -> git commit -am 'wrote tests'
+again, like rebase, should be able to pull a local qitconfig or a global one
+
+branch and checkout should have a flag to push newly created branches after
+being created.
