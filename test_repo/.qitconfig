@@ -1,7 +1,0 @@
-ignore_files=()
-rebase_branch="integration"
-rebase_flags="i"
-merge_branch="master"
-commit_params=3
-commit_structure="${1}(${2}): ${3}"
-commit_tip="feat(tag): message"
