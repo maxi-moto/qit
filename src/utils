@@ -27,6 +27,6 @@ error() {
   local tip
   tip="${2}"
 
-  echo "qit[error]:\t${message}"
-  echo "qit[tip]:\t${tip}"
+  printf "qit[error]:\t${message}\n"
+  printf "qit[tip]:\t${tip}\n"
 }

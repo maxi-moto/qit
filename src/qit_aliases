@@ -1,0 +1,21 @@
+#!/bin/bash
+################################################################################
+#
+# qit aliases: simple aliases for qit
+#
+################################################################################
+
+alias qblame='git blame'
+alias qbranch='git branch'
+alias qcheckout='git checkout'
+alias qlog='git log'
+# alias qmerge='git merge'
+alias qpull='git pull'
+alias qpush='git push'
+# alias qrebase='git rebase'
+alias qstatus='git status'
+
+# TODO: build out help
+alias qhelp='cat ${qit_base_dir}/help.txt'
+
+
